@@ -1,0 +1,98 @@
+<!-- <form (ngSubmit)="onSubmit()" #form="ngForm">
+
+  <div ngModelGroup="personalData">
+    <div>
+      <label>Name:</label>
+      <input type="text" name="name" ngModel required #firstname="ngModel">
+    </div>
+    <span *ngIf="firstname.touched && !firstname.valid"><i>Name is Required!!!</i></span>
+    <div>
+      <label>Email:</label>
+      <input type="text" name="email" ngModel required>
+    </div>
+  
+    <div> 
+      <label>Year of Study</label>
+      <br>
+    <label *ngFor="let year of years">
+      <input type="radio" required ngModel name="year" value={{year}}>
+      {{year}}
+      <br>
+    </label>
+    </div>
+  </div>
+
+  <div>
+    <label>Language:</label>
+    <!-- <input type="text"> -->
+    <!-- <select name="language" ngModel required>
+      <option value="" disabled selected>Pick a Language</option>
+      <option *ngFor="let language of languages" value={{language}}>{{language}}</option>
+    </select>
+  </div>
+  <div>
+     creates the submit button and disables it if the entire form is not filled -->
+    <!-- <input type="submit" value="submit" [disabled]="form.invalid">
+  </div>
+
+
+</form>
+
+
+<button (click)="prepopulate">Pre-populate</button>  -->
+
+
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+  <div formGroupName="personalData">
+    <div>
+      <label>Name:</label>
+      <input type="text" formControlName="name">
+    </div>
+    <span *ngIf="form.get('personalData.name')?.touched && !form.get('personalData.name')?.valid!"><i>Name is Required!!!</i></span>
+    <div>
+      <label>Email:</label>
+      <input type="text" formControlName="email">
+      <div *ngIf="form.get('personalData.email')?.touched && !form.get('personalData.email')?.valid!">
+        <p *ngIf="form.get('personalData.email')?.hasError('reqiured')">Email is Required!!!</p>
+        <p *ngIf="form.get('personalData.email')?.hasError('email')">Email is Not Valid!!!</p>
+      </div>
+    </div>
+  
+    <div> 
+      <label>Year of Study</label>
+      <br>
+    <label *ngFor="let year of years">
+      <input type="radio" value={{year}} formControlName="year">
+      {{year}}
+      <br>
+    </label>
+    </div>
+  </div>
+
+  <div>
+    <label>Language:</label>
+    <select formControlName="language">
+      <option value="" disabled selected>Pick a Language</option>
+      <option *ngFor="let language of languages" value={{language}}>{{language}}</option>
+    </select>
+  </div>
+  <div>
+    <!-- creates the submit button and disables it if the entire form is not filled -->
+    <input type="submit" value="submit" [disabled]="form.invalid">
+  </div>
+
+  <div formArrayName="skills">
+    <label>Your Skills</label>
+    <button (click)="addControl">Add Skill</button>
+    <div *ngFor="let control of getControl(); let i=index">
+      <input type="text" formControlName="{{i}}"/>
+      <button (click)="delete(i)">X</button>
+    </div>
+  </div>
+
+</form>
+
+
+<button (click)="prepopulate">Pre-populate</button>
